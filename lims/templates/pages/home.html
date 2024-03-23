@@ -1,1 +1,34 @@
 {% extends "base.html" %}
+
+{% block main %}
+  {% block content %}
+    <h1>Welcome to LIMS</h1>
+    <p class="lead">Laboratory Information Management System</p>
+    <p>Manage your laboratory data with ease.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Features</h2>
+        <ul>
+          <li>Manage samples</li>
+          <li>Manage tests</li>
+          <li>Manage results</li>
+          <li>Manage users</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        {% if user.is_authenticated %}
+          <h2>Get Started</h2>
+          <p>Start managing your laboratory data.</p>
+        {% else %}
+          <h2>Get Started</h2>
+          <p>Register for an account or login to get started.</p>
+          <p>
+            <a class="btn btn-primary" href="{% url 'account_signup' %}">Register</a>
+            <a class="btn btn-secondary" href="{% url 'account_login' %}">Login</a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  {% endblock content %}
+{% endblock main %}
+a
