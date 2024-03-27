@@ -13,4 +13,7 @@ class OrganismForm(forms.ModelForm):
 class SpecimenForm(forms.ModelForm):
     class Meta:
         model = Specimen
-        fields = "__all__"  # noqa: DJ007
+        fields = ["organism", "specimen_id", "first_name", "last_name", "dob", "cohort"]
+        widgets = {
+            "dob": forms.DateInput(attrs={"type": "date"}),
+        }

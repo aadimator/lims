@@ -13,13 +13,14 @@ class Organism(models.Model):
 
 class Specimen(models.Model):
     organism = models.ForeignKey(Organism, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    dob = models.DateField()
-    cohort = models.CharField(max_length=100)
+    specimen_id = models.CharField(max_length=255, unique=True)
+    first_name = models.CharField(max_length=100, blank=True, default="")
+    last_name = models.CharField(max_length=100, blank=True, default="")
+    dob = models.DateField(blank=True, null=True)
+    cohort = models.CharField(max_length=100, blank=True, default="")
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.specimen_id}"
 
 
 class SampleType(models.Model):

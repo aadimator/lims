@@ -51,6 +51,11 @@ def confirm_delete_view(request, model_name, item_id):
     )
 
 
+def organism_detail_view(request, pk):
+    organism = get_object_or_404(Organism, pk=pk)
+    return render(request, "labdata/detail_organism.html", {"organism": organism})
+
+
 def organism_form_view(request, pk=None):
     instance = get_object_or_404(Organism, pk=pk) if pk else None
     if request.method == "POST":
@@ -69,6 +74,11 @@ def organism_form_view(request, pk=None):
             "button_label": "Update" if pk else "Create",
         },
     )
+
+
+def specimen_detail_view(request, pk):
+    specimen = get_object_or_404(Specimen, pk=pk)
+    return render(request, "labdata/detail_specimen.html", {"specimen": specimen})
 
 
 def specimen_form_view(request, pk=None):

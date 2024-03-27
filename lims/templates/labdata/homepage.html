@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load role_tags %}
 
 {% block content %}
   <div class="container mt-4">
@@ -21,7 +22,7 @@
       {% endfor %}
     </ul>
     <!-- Content for Tabs -->
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content mt-5" id="myTabContent">
       <div class="tab-pane fade show {% if 'Organism' in tables %}active{% endif %}"
            id="OrganismContent"
            role="tabpanel"
@@ -44,11 +45,15 @@
                 <td>{{ organism.sci_name }}</td>
                 <td>{{ organism.common_name }}</td>
                 <td>
-                  <a class="btn btn-primary btn-sm"
-                     href="{% url 'update_organism' organism.id %}"
-                     role="button">Edit</a>
-                  <a href="{% url 'confirm_delete' 'organism' organism.id %}"
-                     class="btn btn-danger btn-sm">Delete</a>
+                  <a href="{% url 'detail_organism' organism.id %}"
+                     class="btn btn-info btn-sm">View</a>
+                  {% if request.user|has_role:"PI" %}
+                    <a class="btn btn-primary btn-sm"
+                       href="{% url 'update_organism' organism.id %}"
+                       role="button">Edit</a>
+                    <a href="{% url 'confirm_delete' 'organism' organism.id %}"
+                       class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
@@ -66,9 +71,11 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">First Name</th>
+              <th scope="col">Specimen ID</th>
+              <th scope="col">Organism</th>
+              <!-- <th scope="col">First Name</th> -->
               <th scope="col">Last Name</th>
-              <th scope="col">DOB</th>
+              <!-- <th scope="col">DOB</th> -->
               <th scope="col">Cohort</th>
               <th scope="col">Actions</th>
             </tr>
@@ -76,16 +83,22 @@
           <tbody>
             {% for specimen in specimens %}
               <tr>
-                <td>{{ specimen.first_name }}</td>
+                <td>{{ specimen.specimen_id }}</td>
+                <td>{{ specimen.organism }}</td>
+                <!-- <td>{{ specimen.first_name }}</td> -->
                 <td>{{ specimen.last_name }}</td>
-                <td>{{ specimen.dob }}</td>
+                <!-- <td>{{ specimen.dob }}</td> -->
                 <td>{{ specimen.cohort }}</td>
                 <td>
-                  <a class="btn btn-primary btn-sm"
-                     href="{% url 'update_specimen' specimen.id %}"
-                     role="button">Edit</a>
-                  <a href="{% url 'confirm_delete' 'specimen' specimen.id %}"
-                     class="btn btn-danger btn-sm">Delete</a>
+                  <a href="{% url 'detail_specimen' specimen.id %}"
+                     class="btn btn-info btn-sm">View</a>
+                  {% if request.user|has_role:"PI" %}
+                    <a class="btn btn-primary btn-sm"
+                       href="{% url 'update_specimen' specimen.id %}"
+                       role="button">Edit</a>
+                    <a href="{% url 'confirm_delete' 'specimen' specimen.id %}"
+                       class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
@@ -95,17 +108,23 @@
     </div>
   </div>
 {% endblock content %}
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Check if there's a saved active tab
-    var activeTabID = localStorage.getItem("activeTabID");
-    if (activeTabID) {
-      $('.nav-tabs a[href="' + activeTabID + '"]').tab("show");
-    }
+{% block inline_javascript %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let activeTabID = localStorage.getItem("activeTabID");
+      if (activeTabID) {
+        let activeTab = new bootstrap.Tab(
+          document.querySelector(`[data-bs-target="${activeTabID}"]`)
+        );
+        activeTab.show();
+      }
 
-    // Update activeTabID in localStorage when a tab is changed
-    $('a[data-bs-toggle="tab"]').on("shown.bs.tab", function(e) {
-      localStorage.setItem("activeTabID", $(e.target).attr("href"));
+      document.querySelectorAll(".nav-link").forEach(function(link) {
+        link.addEventListener("shown.bs.tab", function(e) {
+          let targetID = e.target.getAttribute("data-bs-target");
+          localStorage.setItem("activeTabID", targetID);
+        });
+      });
     });
-  });
-</script>
+  </script>
+{% endblock inline_javascript %}
