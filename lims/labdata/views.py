@@ -4,28 +4,34 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import OrganismForm
-from .forms import SpecimenForm
-from .models import Organism
-from .models import Specimen
+from . import forms
+from . import models
 
 
 def homepage(request):
-    organisms = Organism.objects.all()
-    specimens = Specimen.objects.all()
+    organisms = models.Organism.objects.all()
+    specimens = models.Specimen.objects.all()
+    samples = models.Sample.objects.all()
     return render(
         request,
         "labdata/homepage.html",
         {
             "organisms": organisms,
             "specimens": specimens,
-            "tables": ["Organism", "Specimen"],
+            "samples": samples,
+            "tables": ["Organism", "Specimen", "Sample"],
         },
     )
 
 
 def confirm_delete_view(request, model_name, item_id):
-    model = {"organism": Organism, "specimen": Specimen}.get(model_name.lower())
+    model = {
+        "organism": models.Organism,
+        "specimen": models.Specimen,
+        "sample": models.Sample,
+    }.get(
+        model_name.lower(),
+    )
     if not model:
         msg = "Model not found."
         raise Http404(msg)
@@ -52,19 +58,19 @@ def confirm_delete_view(request, model_name, item_id):
 
 
 def organism_detail_view(request, pk):
-    organism = get_object_or_404(Organism, pk=pk)
+    organism = get_object_or_404(models.Organism, pk=pk)
     return render(request, "labdata/detail_organism.html", {"organism": organism})
 
 
 def organism_form_view(request, pk=None):
-    instance = get_object_or_404(Organism, pk=pk) if pk else None
+    instance = get_object_or_404(models.Organism, pk=pk) if pk else None
     if request.method == "POST":
-        form = OrganismForm(request.POST, instance=instance)
+        form = forms.OrganismForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
             return redirect(reverse("labdata_homepage"))  # Adjust as needed
     else:
-        form = OrganismForm(instance=instance)
+        form = forms.OrganismForm(instance=instance)
     return render(
         request,
         "labdata/form_template.html",
@@ -77,25 +83,79 @@ def organism_form_view(request, pk=None):
 
 
 def specimen_detail_view(request, pk):
-    specimen = get_object_or_404(Specimen, pk=pk)
+    specimen = get_object_or_404(models.Specimen, pk=pk)
     return render(request, "labdata/detail_specimen.html", {"specimen": specimen})
 
 
 def specimen_form_view(request, pk=None):
-    instance = get_object_or_404(Specimen, pk=pk) if pk else None
+    instance = get_object_or_404(models.Specimen, pk=pk) if pk else None
     if request.method == "POST":
-        form = SpecimenForm(request.POST, instance=instance)
+        form = forms.SpecimenForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
             return redirect(reverse("labdata_homepage"))  # Adjust as needed
     else:
-        form = SpecimenForm(instance=instance)
+        form = forms.SpecimenForm(instance=instance)
     return render(
         request,
         "labdata/form_template.html",
         {
             "form": form,
             "title": "Edit Specimen" if pk else "Create New Specimen",
+            "button_label": "Update" if pk else "Create",
+        },
+    )
+
+
+def sampletype_detail_view(request, pk):
+    sample_type = get_object_or_404(models.SampleType, pk=pk)
+    return render(
+        request,
+        "labdata/detail_sample_type.html",
+        {"sample_type": sample_type},
+    )
+
+
+def sampletype_form_view(request, pk=None):
+    instance = get_object_or_404(models.SampleType, pk=pk) if pk else None
+    if request.method == "POST":
+        form = forms.SampleTypeForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("labdata_homepage"))  # Adjust as needed
+    else:
+        form = forms.SampleTypeForm(instance=instance)
+    return render(
+        request,
+        "labdata/form_template.html",
+        {
+            "form": form,
+            "title": "Edit Sample Type" if pk else "Create New Sample Type",
+            "button_label": "Update" if pk else "Create",
+        },
+    )
+
+
+def sample_detail_view(request, pk):
+    sample = get_object_or_404(models.Sample, pk=pk)
+    return render(request, "labdata/detail_sample.html", {"sample": sample})
+
+
+def sample_form_view(request, pk=None):
+    instance = get_object_or_404(models.Sample, pk=pk) if pk else None
+    if request.method == "POST":
+        form = forms.SampleForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("labdata_homepage"))  # Adjust as needed
+    else:
+        form = forms.SampleForm(instance=instance)
+    return render(
+        request,
+        "labdata/form_template.html",
+        {
+            "form": form,
+            "title": "Edit Sample" if pk else "Create New Sample",
             "button_label": "Update" if pk else "Create",
         },
     )

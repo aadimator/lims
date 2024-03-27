@@ -23,4 +23,22 @@ urlpatterns = [
         name="detail_specimen",
     ),
     path("specimen/<int:pk>/", views.specimen_form_view, name="update_specimen"),
+    path("sampletype/", views.sampletype_form_view, name="create_sampletype"),
+    path(
+        "sampletype/detail/<int:pk>/",
+        views.sampletype_detail_view,
+        name="detail_sampletype",
+    ),
+    path(
+        "sampletype/<int:pk>/",
+        views.sampletype_form_view,
+        name="update_sampletype",
+    ),
+    path("sample/", views.sample_form_view, name="create_sample"),
+    path(
+        "sample/detail/<int:pk>/",
+        views.sample_detail_view,
+        name="detail_sample",
+    ),
+    path("sample/<int:pk>/", views.sample_form_view, name="update_sample"),
 ]

@@ -7,7 +7,7 @@
   <div class="container mt-4">
     <h1>LabData Management</h1>
     <!-- Tabs for Different Tables -->
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
       {% for table in tables %}
         <li class="nav-item" role="presentation">
           <button class="nav-link {% if forloop.first %}active{% endif %}"
@@ -23,6 +23,7 @@
     </ul>
     <!-- Content for Tabs -->
     <div class="tab-content mt-5" id="myTabContent">
+      <!-- Organism Content -->
       <div class="tab-pane fade show {% if 'Organism' in tables %}active{% endif %}"
            id="OrganismContent"
            role="tabpanel"
@@ -60,6 +61,7 @@
           </tbody>
         </table>
       </div>
+      <!-- Specimen Content -->
       <div class="tab-pane fade"
            id="SpecimenContent"
            role="tabpanel"
@@ -97,6 +99,49 @@
                        href="{% url 'update_specimen' specimen.id %}"
                        role="button">Edit</a>
                     <a href="{% url 'confirm_delete' 'specimen' specimen.id %}"
+                       class="btn btn-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- Sample Content -->
+      <div class="tab-pane fade"
+           id="SampleContent"
+           role="tabpanel"
+           aria-labelledby="Sample-tab">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3>Samples</h3>
+          <div>
+            <a href="{% url 'create_sample' %}" class="btn btn-success btn-sm">+ New Sample</a>
+            <a href="{% url 'create_sampletype' %}" class="btn btn-primary btn-sm">+ New Sample Type</a>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Collect Date</th>
+              <th scope="col">Type</th>
+              <th scope="col">Specimen</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sample in samples %}
+              <tr>
+                <td>{{ sample.collect_date }}</td>
+                <td>{{ sample.type }}</td>
+                <td>{{ sample.specimen }}</td>
+                <td>
+                  <a href="{% url 'detail_sample' sample.id %}"
+                     class="btn btn-info btn-sm">View</a>
+                  {% if request.user|has_role:"PI" %}
+                    <a class="btn btn-primary btn-sm"
+                       href="{% url 'update_sample' sample.id %}"
+                       role="button">Edit</a>
+                    <a href="{% url 'confirm_delete' 'sample' sample.id %}"
                        class="btn btn-danger btn-sm">Delete</a>
                   {% endif %}
                 </td>
