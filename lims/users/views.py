@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -6,6 +7,8 @@ from django.views.generic import DetailView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
 
+from lims.users.forms import AnalystForm
+from lims.users.models import Analyst
 from lims.users.models import User
 
 
@@ -30,6 +33,30 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["analyst_group"] = Group.objects.get(name="Analyst")
+        if self.request.user.groups.filter(name="Analyst").exists():
+            context["analyst_form"] = AnalystForm(instance=self.get_analyst_instance())
+        return context
+
+    def get_analyst_instance(self):
+        try:
+            return Analyst.objects.get(user=self.request.user)
+        except Analyst.DoesNotExist:
+            return None
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.request.user.groups.filter(name="Analyst").exists():
+            analyst_form = AnalystForm(
+                self.request.POST,
+                instance=self.get_analyst_instance(),
+            )
+            if analyst_form.is_valid():
+                analyst_form.save()
+        return response
 
 
 user_update_view = UserUpdateView.as_view()

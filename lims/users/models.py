@@ -28,19 +28,30 @@ class User(AbstractUser):
 
 
 class Analyst(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="analyst",
-        null=True,
-    )
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    dob = models.DateField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="analyst")
+    first_name = models.CharField(max_length=100, blank=True, default="")
+    last_name = models.CharField(max_length=100, blank=True, default="")
+    dob = models.DateField(blank=True, null=True)
     role = models.ForeignKey("Role", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        analyst_group, created = Group.objects.get_or_create(name="Analyst")
+        analyst_role = Role.objects.get(
+            group=analyst_group,
+        )  # Get the 'Analyst' Role object
+        if self.role == analyst_role:
+            self.user.groups.add(analyst_group)
+        else:
+            self.user.groups.remove(analyst_group)
+
+    def delete(self, *args, **kwargs):
+        analyst_group = Group.objects.get(name="Analyst")
+        self.user.groups.remove(analyst_group)
+        super().delete(*args, **kwargs)
 
 
 class Role(models.Model):

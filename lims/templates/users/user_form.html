@@ -11,7 +11,13 @@
         method="post"
         action="{% url 'users:update' %}">
     {% csrf_token %}
-    {{ form|crispy }}
+    {% if analyst_group in user.groups.all %}
+      <hr />
+      <h2>Analyst Details</h2>
+      {{ analyst_form|crispy }}
+    {% else %}
+      {{ form|crispy }}
+    {% endif %}
     <div class="control-group">
       <div class="controls">
         <button type="submit" class="btn btn-primary">Update</button>

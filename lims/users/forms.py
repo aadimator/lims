@@ -45,4 +45,7 @@ class UserSocialSignupForm(SocialSignupForm):
 class AnalystForm(forms.ModelForm):
     class Meta:
         model = Analyst
-        fields = "__all__"  # noqa: DJ007
+        fields = ["first_name", "last_name", "dob"]
+        widgets = {
+            "dob": forms.DateInput(attrs={"type": "date"}),
+        }
