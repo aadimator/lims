@@ -44,4 +44,11 @@ urlpatterns = [
     path("test/", views.test_form_view, name="create_test"),
     path("test/detail/<int:pk>/", views.test_detail_view, name="detail_test"),
     path("test/<int:pk>/", views.test_form_view, name="update_test"),
+    path("inventory/", views.inventory_form_view, name="create_inventory"),
+    path(
+        "inventory/detail/<int:pk>/",
+        views.inventory_detail_view,
+        name="detail_inventory",
+    ),
+    path("inventory/<int:pk>/", views.inventory_form_view, name="update_inventory"),
 ]

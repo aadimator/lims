@@ -13,6 +13,7 @@ def homepage(request):
     specimens = models.Specimen.objects.all()
     samples = models.Sample.objects.all()
     tests = models.Test.objects.all()
+    inventory = models.Inventory.objects.all()
     return render(
         request,
         "labdata/homepage.html",
@@ -21,7 +22,8 @@ def homepage(request):
             "specimens": specimens,
             "samples": samples,
             "tests": tests,
-            "tables": ["Organism", "Specimen", "Sample", "Test"],
+            "inventories": inventory,
+            "tables": ["Organism", "Specimen", "Sample", "Test", "Inventory"],
         },
     )
 
@@ -183,6 +185,35 @@ def test_form_view(request, pk=None):
         {
             "form": form,
             "title": "Edit Test" if pk else "Create New Test",
+            "button_label": "Update" if pk else "Create",
+        },
+    )
+
+
+def inventory_detail_view(request, pk):
+    inventory_item = get_object_or_404(models.Inventory, pk=pk)
+    return render(
+        request,
+        "labdata/detail_inventory.html",
+        {"inventory": inventory_item},
+    )
+
+
+def inventory_form_view(request, pk=None):
+    instance = get_object_or_404(models.Inventory, pk=pk) if pk else None
+    if request.method == "POST":
+        form = forms.InventoryForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("labdata_homepage"))  # Adjust as needed
+    else:
+        form = forms.InventoryForm(instance=instance)
+    return render(
+        request,
+        "labdata/form_template.html",
+        {
+            "form": form,
+            "title": "Edit Inventory Item" if pk else "Create New Inventory Item",
             "button_label": "Update" if pk else "Create",
         },
     )

@@ -37,3 +37,12 @@ class TestForm(forms.ModelForm):
     class Meta:
         model = models.Test
         fields = "__all__"  # noqa: DJ007
+
+
+class InventoryForm(forms.ModelForm):
+    class Meta:
+        model = models.Inventory
+        fields = "__all__"  # noqa: DJ007
+        widgets = {
+            "exp": forms.DateInput(attrs={"type": "date"}),
+        }
