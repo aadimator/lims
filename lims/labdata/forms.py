@@ -31,3 +31,9 @@ class SampleTypeForm(forms.ModelForm):
     class Meta:
         model = models.SampleType
         fields = "__all__"  # noqa: DJ007
+
+
+class TestForm(forms.ModelForm):
+    class Meta:
+        model = models.Test
+        fields = "__all__"  # noqa: DJ007

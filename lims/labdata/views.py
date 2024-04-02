@@ -12,6 +12,7 @@ def homepage(request):
     organisms = models.Organism.objects.all()
     specimens = models.Specimen.objects.all()
     samples = models.Sample.objects.all()
+    tests = models.Test.objects.all()
     return render(
         request,
         "labdata/homepage.html",
@@ -19,7 +20,8 @@ def homepage(request):
             "organisms": organisms,
             "specimens": specimens,
             "samples": samples,
-            "tables": ["Organism", "Specimen", "Sample"],
+            "tests": tests,
+            "tables": ["Organism", "Specimen", "Sample", "Test"],
         },
     )
 
@@ -156,6 +158,31 @@ def sample_form_view(request, pk=None):
         {
             "form": form,
             "title": "Edit Sample" if pk else "Create New Sample",
+            "button_label": "Update" if pk else "Create",
+        },
+    )
+
+
+def test_detail_view(request, pk):
+    test = get_object_or_404(models.Test, pk=pk)
+    return render(request, "labdata/detail_test.html", {"test": test})
+
+
+def test_form_view(request, pk=None):
+    instance = get_object_or_404(models.Test, pk=pk) if pk else None
+    if request.method == "POST":
+        form = forms.TestForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("labdata_homepage"))  # Adjust as needed
+    else:
+        form = forms.TestForm(instance=instance)
+    return render(
+        request,
+        "labdata/form_template.html",
+        {
+            "form": form,
+            "title": "Edit Test" if pk else "Create New Test",
             "button_label": "Update" if pk else "Create",
         },
     )

@@ -41,4 +41,7 @@ urlpatterns = [
         name="detail_sample",
     ),
     path("sample/<int:pk>/", views.sample_form_view, name="update_sample"),
+    path("test/", views.test_form_view, name="create_test"),
+    path("test/detail/<int:pk>/", views.test_detail_view, name="detail_test"),
+    path("test/<int:pk>/", views.test_form_view, name="update_test"),
 ]
