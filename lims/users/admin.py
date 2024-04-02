@@ -27,7 +27,6 @@ class UserAdmin(auth_admin.UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("name", "email")}),
-        (_("Analyst info"), {"fields": ("analyst",)}),
         (
             _("Permissions"),
             {
@@ -42,15 +41,11 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["username", "name", "is_superuser", "analyst"]
+    list_display = ["username", "name", "is_superuser"]
     search_fields = ["name"]
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
-        if "analyst" in form.cleaned_data:
-            # If there's analyst data, update or create the analyst.
-            analyst_data = form.cleaned_data["analyst"]
-            Analyst.objects.update_or_create(user=obj, defaults=analyst_data)
 
 
 @admin.register(Analyst)

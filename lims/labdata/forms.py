@@ -46,3 +46,12 @@ class InventoryForm(forms.ModelForm):
         widgets = {
             "exp": forms.DateInput(attrs={"type": "date"}),
         }
+
+
+class SampleResultsForm(forms.ModelForm):
+    class Meta:
+        model = models.SampleResults
+        fields = "__all__"  # noqa: DJ007
+        widgets = {
+            "date": forms.DateInput(attrs={"type": "date"}),
+        }

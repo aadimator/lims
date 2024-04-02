@@ -14,6 +14,7 @@ def homepage(request):
     samples = models.Sample.objects.all()
     tests = models.Test.objects.all()
     inventory = models.Inventory.objects.all()
+    sample_results = models.SampleResults.objects.all()
     return render(
         request,
         "labdata/homepage.html",
@@ -23,7 +24,15 @@ def homepage(request):
             "samples": samples,
             "tests": tests,
             "inventories": inventory,
-            "tables": ["Organism", "Specimen", "Sample", "Test", "Inventory"],
+            "sample_results": sample_results,
+            "tables": [
+                "Organism",
+                "Specimen",
+                "Sample",
+                "Test",
+                "Inventory",
+                "Results",
+            ],
         },
     )
 
@@ -214,6 +223,35 @@ def inventory_form_view(request, pk=None):
         {
             "form": form,
             "title": "Edit Inventory Item" if pk else "Create New Inventory Item",
+            "button_label": "Update" if pk else "Create",
+        },
+    )
+
+
+def sample_results_detail_view(request, pk):
+    results = get_object_or_404(models.SampleResults, pk=pk)
+    return render(
+        request,
+        "labdata/detail_sample_results.html",
+        {"sample_result": results},
+    )
+
+
+def sample_results_form_view(request, pk=None):
+    instance = get_object_or_404(models.SampleResults, pk=pk) if pk else None
+    if request.method == "POST":
+        form = forms.SampleResultsForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("labdata_homepage"))  # Adjust as needed
+    else:
+        form = forms.SampleResultsForm(instance=instance)
+    return render(
+        request,
+        "labdata/form_template.html",
+        {
+            "form": form,
+            "title": "Edit Sample Results" if pk else "Create New Sample Results",
             "button_label": "Update" if pk else "Create",
         },
     )

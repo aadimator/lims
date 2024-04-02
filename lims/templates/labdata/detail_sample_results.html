@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load role_tags %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Sample Result Details</h1>
+    <dl class="row mt-4">
+      <dt class="col-sm-2">Sample</dt>
+      <dd class="col-sm-10">
+        {{ sample_result.sample }}
+      </dd>
+      <dt class="col-sm-2">Test</dt>
+      <dd class="col-sm-10">
+        {{ sample_result.test }}
+      </dd>
+      <dt class="col-sm-2">Analyst</dt>
+      <dd class="col-sm-10">
+        {{ sample_result.analyst }}
+      </dd>
+      <dt class="col-sm-2">Reagent</dt>
+      <dd class="col-sm-10">
+        {{ sample_result.reagent }}
+      </dd>
+      <dt class="col-sm-2">Date</dt>
+      <dd class="col-sm-10">
+        {{ sample_result.date }}
+      </dd>
+      <dt class="col-sm-2">Result</dt>
+      <dd class="col-sm-10">
+        {{ sample_result.results }}
+      </dd>
+    </dl>
+    <!-- Navigation Buttons -->
+    <div class="mt-3">
+      <!-- Go back button -->
+      <a href="{% url 'labdata_homepage' %}" class="btn btn-secondary">Back to List</a>
+      {% if request.user|has_role:"PI" %}
+        <!-- Edit button -->
+        <a href="{% url 'update_sample_result' sample_result.id %}"
+           class="btn btn-primary">Edit</a>
+        <!-- Delete button -->
+        <a href="{% url 'confirm_delete' 'sample_result' sample_result.id %}"
+           class="btn btn-danger">Delete</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

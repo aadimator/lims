@@ -51,4 +51,19 @@ urlpatterns = [
         name="detail_inventory",
     ),
     path("inventory/<int:pk>/", views.inventory_form_view, name="update_inventory"),
+    path(
+        "sample_results/",
+        views.sample_results_form_view,
+        name="create_sample_results",
+    ),
+    path(
+        "sample_results/detail/<int:pk>/",
+        views.sample_results_detail_view,
+        name="detail_sample_results",
+    ),
+    path(
+        "sample_results/<int:pk>/",
+        views.sample_results_form_view,
+        name="update_sample_results",
+    ),
 ]
