@@ -20,7 +20,12 @@
       </dd>
       <dt class="col-sm-2">Reagent</dt>
       <dd class="col-sm-10">
-        {{ sample_result.reagent }}
+        {% for reagent in sample_result.reagents.all %}
+          {{ reagent.name }}
+          {% if not forloop.last %},{% endif %}
+        {% empty %}
+          No reagents
+        {% endfor %}
       </dd>
       <dt class="col-sm-2">Date</dt>
       <dd class="col-sm-10">

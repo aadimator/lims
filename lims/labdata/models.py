@@ -64,7 +64,7 @@ class SampleResults(models.Model):
     sample = models.ForeignKey(Sample, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     analyst = models.ForeignKey(Analyst, on_delete=models.SET_NULL, null=True)
-    reagent = models.ForeignKey(Inventory, on_delete=models.SET_NULL, null=True)
+    reagents = models.ManyToManyField("Inventory", related_name="sample_results")
     date = models.DateField()
     results = models.TextField()
 

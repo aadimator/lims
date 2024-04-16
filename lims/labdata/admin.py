@@ -41,4 +41,10 @@ class InventoryAdmin(admin.ModelAdmin):
 
 @admin.register(SampleResults)
 class SampleResultsAdmin(admin.ModelAdmin):
-    list_display = ("sample", "test", "analyst", "reagent", "date", "results")
+    list_display = ("sample", "test", "analyst", "get_reagents", "date", "results")
+
+    @admin.display(
+        description="Reagents",
+    )
+    def get_reagents(self, obj):
+        return ", ".join([str(reagent) for reagent in obj.reagents.all()])
