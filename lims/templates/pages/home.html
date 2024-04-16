@@ -2,33 +2,76 @@
 
 {% block main %}
   {% block content %}
-    <h1>Welcome to LIMS</h1>
-    <p class="lead">Laboratory Information Management System</p>
-    <p>Manage your laboratory data with ease.</p>
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Features</h2>
-        <ul>
-          <li>Manage samples</li>
-          <li>Manage tests</li>
-          <li>Manage results</li>
-          <li>Manage users</li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        {% if user.is_authenticated %}
-          <h2>Get Started</h2>
-          <p>Start managing your laboratory data.</p>
-        {% else %}
-          <h2>Get Started</h2>
-          <p>Register for an account or login to get started.</p>
-          <p>
-            <a class="btn btn-primary" href="{% url 'account_signup' %}">Register</a>
-            <a class="btn btn-secondary" href="{% url 'account_login' %}">Login</a>
-          </p>
-        {% endif %}
+    <div class="jumbotron bg-light text-center p-3 mt-3">
+      <h1 class="display-4">Welcome to LIMS</h1>
+      <p class="lead">Streamline and enhance your lab operations.</p>
+      <hr class="my-4" />
+      <p>Empower your research with our comprehensive lab management tools.</p>
+      {% if user.is_authenticated %}
+        <p class="lead">
+          <a class="btn btn-primary btn-lg"
+             href="{% url 'labdata_homepage' %}"
+             role="button">Dashboard</a>
+        </p>
+      {% else %}
+        <p class="lead">
+          <a class="btn btn-primary btn-lg"
+             href="{% url 'account_signup' %}"
+             role="button">Register</a>
+          <a class="btn btn-secondary btn-lg"
+             href="{% url 'account_login' %}"
+             role="button">Login</a>
+        </p>
+      {% endif %}
+    </div>
+    <div class="container mt-4">
+      <h2 class="text-center mb-4">Key Features</h2>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+          <div class="card shadow-sm">
+            <img class="card-img-top"
+                 src="https://plus.unsplash.com/premium_photo-1661628984416-946603207cfc?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Sample Management" />
+            <div class="card-body">
+              <h5 class="card-title">Sample Management</h5>
+              <p class="card-text">Organize and track all your samples efficiently.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img class="card-img-top"
+                 src="https://images.unsplash.com/photo-1582719367079-bc1b8e5fed9d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Test Management" />
+            <div class="card-body">
+              <h5 class="card-title">Test Management</h5>
+              <p class="card-text">Manage and present the results of different tests.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img class="card-img-top"
+                 src="https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?crop=entropy&cs=tinysrgb&w=1080&fit=max"
+                 alt="User Management" />
+            <div class="card-body">
+              <h5 class="card-title">User Management</h5>
+              <p class="card-text">Control access with customizable roles and permissions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img class="card-img-top"
+                 src="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                 alt="Inventory Management" />
+            <div class="card-body">
+              <h5 class="card-title">Inventory Management</h5>
+              <p class="card-text">Keep track of lab supplies and reagents.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   {% endblock content %}
 {% endblock main %}
-a
