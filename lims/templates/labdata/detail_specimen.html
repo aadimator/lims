@@ -30,7 +30,14 @@
       <dd class="col-sm-10">
         {{ specimen.cohort }}
       </dd>
-      <!-- Add more fields as needed -->
+      <dt class="col-sm-2">Gender</dt>
+      <dd class="col-sm-10">
+        {{ specimen.get_gender_display }}
+      </dd>
+      <dt class="col-sm-2">Race</dt>
+      <dd class="col-sm-10">
+        {{ specimen.get_race_display }}
+      </dd>
     </dl>
     <!-- Navigation Buttons -->
     <div class="mt-3">

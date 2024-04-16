@@ -16,7 +16,16 @@ class OrganismAdmin(admin.ModelAdmin):
 
 @admin.register(Specimen)
 class SpecimenAdmin(admin.ModelAdmin):
-    list_display = ("first_name", "last_name", "dob", "cohort")
+    list_display = (
+        "organism",
+        "specimen_id",
+        "first_name",
+        "last_name",
+        "dob",
+        "cohort",
+        "gender",
+        "race",
+    )
 
 
 @admin.register(SampleType)

@@ -12,7 +12,16 @@ class OrganismForm(forms.ModelForm):
 class SpecimenForm(forms.ModelForm):
     class Meta:
         model = models.Specimen
-        fields = ["organism", "specimen_id", "first_name", "last_name", "dob", "cohort"]
+        fields = [
+            "organism",
+            "specimen_id",
+            "first_name",
+            "last_name",
+            "dob",
+            "cohort",
+            "gender",
+            "race",
+        ]
         widgets = {
             "dob": forms.DateInput(attrs={"type": "date"}),
         }

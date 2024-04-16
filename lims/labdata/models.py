@@ -16,12 +16,34 @@ class Organism(models.Model):
 
 
 class Specimen(models.Model):
+    GENDER_CHOICES = [
+        ("M", "Male"),
+        ("F", "Female"),
+    ]
+
+    RACE_CHOICES = [
+        ("W", "White"),
+        ("B", "Black or African American"),
+        ("A", "Asian"),
+        ("H", "Hispanic or Latino"),
+        ("N", "American Indian or Alaska Native"),
+        ("O", "Native Hawaiian or Other Pacific Islander"),
+        ("U", "Unknown or Not Reported"),
+    ]
+
     organism = models.ForeignKey(Organism, on_delete=models.CASCADE)
     specimen_id = models.CharField(max_length=255, unique=True)
     first_name = models.CharField(max_length=100, blank=True, default="")
     last_name = models.CharField(max_length=100, blank=True, default="")
     dob = models.DateField(blank=True, null=True)
     cohort = models.CharField(max_length=100, blank=True, default="")
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        blank=True,
+        default="",
+    )
+    race = models.CharField(max_length=1, choices=RACE_CHOICES, blank=True, default="")
 
     def __str__(self):
         return f"{self.specimen_id}"
