@@ -8,11 +8,11 @@
     <dl class="row mt-4">
       <dt class="col-sm-2">Sample</dt>
       <dd class="col-sm-10">
-        {{ sample_result.sample }}
+        <a href="{{ sample_result.sample.get_absolute_url }}">{{ sample_result.sample }}</a>
       </dd>
       <dt class="col-sm-2">Test</dt>
       <dd class="col-sm-10">
-        {{ sample_result.test }}
+        <a href="{{ sample_result.test.get_absolute_url }}">{{ sample_result.test }}</a>
       </dd>
       <dt class="col-sm-2">Analyst</dt>
       <dd class="col-sm-10">
@@ -21,7 +21,7 @@
       <dt class="col-sm-2">Reagent</dt>
       <dd class="col-sm-10">
         {% for reagent in sample_result.reagents.all %}
-          {{ reagent.name }}
+          <a href="{{ reagent.get_absolute_url }}">{{ reagent.name }}</a>
           {% if not forloop.last %},{% endif %}
         {% empty %}
           No reagents

@@ -6,17 +6,17 @@
   <div class="container mt-4">
     <h1>Sample Details</h1>
     <dl class="row mt-4">
-      <dt class="col-sm-2">Sample ID</dt>
+      <dt class="col-sm-2">Collect Date</dt>
       <dd class="col-sm-10">
-        {{ sample.sample_id }}
+        {{ sample.collect_date }}
       </dd>
       <dt class="col-sm-2">Type</dt>
       <dd class="col-sm-10">
-        {{ sample.type }}
+        <a href="{{ sample.type.get_absolute_url }}">{{ sample.type }}</a>
       </dd>
       <dt class="col-sm-2">Specimen</dt>
       <dd class="col-sm-10">
-        {{ sample.specimen }}
+        <a href="{{ sample.specimen.get_absolute_url }}">{{ sample.specimen }}</a>
       </dd>
       <!-- Add more fields as needed -->
     </dl>

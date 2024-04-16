@@ -12,7 +12,7 @@
       </dd>
       <dt class="col-sm-2">Organism</dt>
       <dd class="col-sm-10">
-        {{ specimen.organism }}
+        <a href="{{ specimen.organism.get_absolute_url }}">{{ specimen.organism }}</a>
       </dd>
       <dt class="col-sm-2">First Name</dt>
       <dd class="col-sm-10">

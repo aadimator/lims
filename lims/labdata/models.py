@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from lims.users.models import Analyst
 
@@ -9,6 +10,9 @@ class Organism(models.Model):
 
     def __str__(self):
         return self.common_name
+
+    def get_absolute_url(self):
+        return reverse("detail_organism", args=[str(self.id)])
 
 
 class Specimen(models.Model):
@@ -22,6 +26,9 @@ class Specimen(models.Model):
     def __str__(self):
         return f"{self.specimen_id}"
 
+    def get_absolute_url(self):
+        return reverse("detail_specimen", args=[str(self.id)])
+
 
 class SampleType(models.Model):
     source = models.CharField(max_length=200)
@@ -29,6 +36,9 @@ class SampleType(models.Model):
 
     def __str__(self):
         return self.source
+
+    def get_absolute_url(self):
+        return reverse("detail_sampletype", args=[str(self.id)])
 
 
 class Sample(models.Model):
@@ -39,6 +49,9 @@ class Sample(models.Model):
     def __str__(self):
         return f"{self.specimen} {self.type}"
 
+    def get_absolute_url(self):
+        return reverse("detail_sample", args=[str(self.id)])
+
 
 class Test(models.Model):
     name = models.CharField(max_length=200)
@@ -47,6 +60,9 @@ class Test(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("detail_test", args=[str(self.id)])
 
 
 class Inventory(models.Model):
@@ -59,6 +75,9 @@ class Inventory(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("detail_inventory", args=[str(self.id)])
+
 
 class SampleResults(models.Model):
     sample = models.ForeignKey(Sample, on_delete=models.CASCADE)
@@ -70,3 +89,6 @@ class SampleResults(models.Model):
 
     def __str__(self):
         return f"{self.sample} {self.test} Results"
+
+    def get_absolute_url(self):
+        return reverse("detail_sample_results", args=[str(self.id)])
