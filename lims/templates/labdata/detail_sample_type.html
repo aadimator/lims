@@ -22,7 +22,7 @@
       <a href="{% url 'labdata_homepage' %}" class="btn btn-secondary">Back to Dashboard</a>
       {% if request.user|has_role:"PI" %}
         <!-- Edit button -->
-        <a href="{% url 'update_sample_type' sample_type.id %}"
+        <a href="{% url 'update_sampletype' sample_type.id %}"
            class="btn btn-primary">Edit</a>
         <!-- Delete button -->
         <a href="{% url 'confirm_delete' 'sample_type' sample_type.id %}"
